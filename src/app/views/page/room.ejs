@@ -1,0 +1,60 @@
+<ul id="users">
+  
+</ul>
+<div id="logs">
+  <div id="list">
+  </div>
+</div>
+
+<div id="chatbox">
+  <div style="margin:10px;margin-right:100px;">
+  <textarea id="content"></textarea>
+  </div>
+
+  <a href="javascript:;" onclick="send();" class="send">Send</a>
+</div>
+
+<input type="hidden" value="<%-room_id%>" id="room_id"/>
+<input type="hidden" value="<%-displayname%>" id="displayname"/>
+<input type="hidden" value="<%-password%>" id="password"/>
+
+<script type="text/javascript">
+var socket;
+$(function(){
+  socket = io.connect('http://localhost:8900');
+  socket.on('connect', function () {
+    socket.on('users', function (users) {
+        $("#users").html('');
+        for(var i in rooms){
+            $("#users").append("<li user_id='"+i+"''>"+users[i].name+"</li>");
+        }
+    });
+
+    socket.on('joinRoom', function(message) {
+        if(message == 1){
+          noty({layout:'center',timeout: 1000,force: true, text: 'Joined!', type: 'success'});
+        }
+    });
+
+    socket.on('newMessage', function(message) {
+        appendMessage(message);
+    });
+
+  });
+
+  joinRoom();
+});
+
+function joinRoom(){
+   socket.emit("joinRoom",$("#room_id").val(),$("#displayname").val(),$("#password").val());
+}
+
+function send(){
+    socket.emit("newMessage",{room_id:$("#room_id").val(),user:$("#displayname").val(),message:$("#content").val()});
+}
+
+function appendMessage(message){
+    $("#list").append(message.user+":"+message.message+"<br/>");
+}
+
+</script>

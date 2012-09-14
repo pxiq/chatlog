@@ -1,0 +1,73 @@
+<div id="nav">
+  <div class="logo">ChatLog</div>
+  <a href="javascript:;" onclick="createRoom();" class="btn" style="position:absolute;right:20px;top:13px;">Create a new room</a>
+</div>  
+<div style="margin:30px 20px 10px 20px;color:#a3c07d;font-size:14px;">Public rooms</div>
+<ul id="rooms">
+  
+</ul>
+<script type="text/javascript">
+var socket;
+$(function(){
+  $("#rooms li").live("mouseover",function(){
+    $(this).animate({backgroundColor:"#a3c07d",color:"#000"},300);
+  }).live("mouseout",function(){
+    $(this).animate({backgroundColor:"#eff8e3",color:"#000"},300);
+  }).live("click",function(){
+    joinRoom($(this).attr("room_id"));
+  });
+
+  socket = io.connect('http://localhost:8900');
+  socket.on('connect', function () {
+    socket.on('rooms', function (rooms) {
+        $("#rooms").html('');
+        for(var i in rooms){
+            $("#rooms").append("<li room_id='"+i+"''>"+rooms[i].name+"</li>");
+        }
+    });
+  });
+});
+
+function createRoom(){
+  loading();
+  $.sheetbox('/page/create_room','',{layout:'bottom',height:80,speed:200,modal: true,
+    onShow:function(){
+      hideLoading();
+      $("#roomName").focus();
+    }
+  });
+} 
+
+function onCreateRoom(){
+	if($("#roomName").val()==""){
+		noty({layout:'center',timeout: 1000,force: true, text: 'Room Name can not be empty!', type: 'error'});
+		$("#roomName").focus();
+		return;
+	}
+    
+    //var id = hex_md5($("#roomName").val()+new Date().getTime();
+	socket.emit('createRoom',{name:$("#roomName").val()}); 
+	$.sheetbox.close("bottom");
+}
+
+function joinRoom(room_id){
+  loading();
+  $.sheetbox('/page/join_room?room_id='+room_id,'',{layout:'bottom',height:80,speed:200,modal: true,
+    onShow:function(){
+      hideLoading();
+      $("#displayName").focus();
+    }
+  });
+} 
+
+function onJoinRoom(){
+	if($("#displayName").val()==""){
+		noty({layout:'center',timeout: 1000,force: true, text: 'Display Name can not be empty!', type: 'error'});
+		$("#displayName").focus();
+		return;
+	}
+
+	window.open("/page/room?displayname="+$("#displayName").val()+"&password="+$("#roomPassword").val()+"&room_id="+$("#room_id").val());
+	$.sheetbox.close("bottom");
+}
+</script>
