@@ -54,7 +54,7 @@ function send(){
 }
 
 function appendMessage(message){
-    $("#list").append(message.user+":"+message.message+"<br/>");
+    $("#list").append("<div class='msg'><span class='msg_user'>"+message.user+":</span><span class='msg_msg'>"+message.message+"</span><span class='msg_date'>"+message.date+"</span>");
 }
 
 </script>
