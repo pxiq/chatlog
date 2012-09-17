@@ -1,17 +1,21 @@
 <div id="nav">
   <div class="logo">ChatLog</div>
-  <a href="javascript:;" onclick="createRoom();" class="btn" style="position:absolute;right:20px;top:13px;">Create a new room</a>
+  <a href="javascript:;" onclick="createRoom();" class="btn" style="position:absolute;right:20px;top:10px;">Create a new room</a>
 </div>  
-<div style="margin:30px 20px 10px 20px;color:#a3c07d;font-size:14px;">Public rooms</div>
-<ul id="rooms">
+<div style="margin:30px 20px 10px 20px;color:#a3c07d;font-size:14px;clear:both;">Public rooms</div>
+<ul class="rooms" id="public_rooms">
+  
+</ul>
+<div style="margin:30px 20px 10px 20px;color:#a3c07d;font-size:14px;clear:both;">Private rooms</div>
+<ul class="rooms" id="private_rooms">
   
 </ul>
 <script type="text/javascript">
 var socket;
 $(function(){
-  $("#rooms li").live("mouseover",function(){
+  $(".rooms li").live("mouseenter",function(){
     $(this).animate({backgroundColor:"#a3c07d",color:"#000"},300);
-  }).live("mouseout",function(){
+  }).live("mouseleave",function(){
     $(this).animate({backgroundColor:"#eff8e3",color:"#000"},300);
   }).live("click",function(){
     joinRoom($(this).attr("room_id"));
@@ -20,9 +24,12 @@ $(function(){
   socket = io.connect('http://localhost:8900');
   socket.on('connect', function () {
     socket.on('rooms', function (rooms) {
-        $("#rooms").html('');
+        $(".rooms").html('');
         for(var i in rooms){
-            $("#rooms").append("<li room_id='"+i+"''>"+rooms[i].name+"</li>");
+            if(rooms[i].password=='')
+                $("#public_rooms").append("<li room_id='"+i+"''>"+rooms[i].name+"<span>Created: "+rooms[i].created+"</span></li>");
+            else
+                $("#private_rooms").append("<li room_id='"+i+"''>"+rooms[i].name+"<span>Created: "+rooms[i].created+"</span></li>"); 
         }
     });
   });
@@ -30,7 +37,7 @@ $(function(){
 
 function createRoom(){
   loading();
-  $.sheetbox('/page/create_room','',{layout:'bottom',height:80,speed:200,modal: true,
+  $.sheetbox('/page/create_room','',{layout:'center',height:250,width:460,speed:200,modal: true,
     onShow:function(){
       hideLoading();
       $("#roomName").focus();
@@ -40,19 +47,25 @@ function createRoom(){
 
 function onCreateRoom(){
 	if($("#roomName").val()==""){
-		noty({layout:'center',timeout: 1000,force: true, text: 'Room Name can not be empty!', type: 'error'});
+		noty({layout:'top',timeout: 1000,force: true, text: 'Name can not be empty!', type: 'error'});
 		$("#roomName").focus();
 		return;
 	}
+
+  if($("#password").val()!=$("#confirmPassword").val()){
+    noty({layout:'top',timeout: 1000,force: true, text: 'Please input the same password!', type: 'error'});
+    $("#confirmPassword").focus();
+    return;
+  }
     
     //var id = hex_md5($("#roomName").val()+new Date().getTime();
-	socket.emit('createRoom',{name:$("#roomName").val()}); 
-	$.sheetbox.close("bottom");
+	socket.emit('createRoom',{name:$("#roomName").val(),password:$("#roomPassword").val()}); 
+	$.sheetbox.close("center");
 }
 
 function joinRoom(room_id){
   loading();
-  $.sheetbox('/page/join_room?room_id='+room_id,'',{layout:'bottom',height:80,speed:200,modal: true,
+  $.sheetbox('/page/join_room?room_id='+room_id,'',{layout:'center',height:250,width:400,speed:200,modal: true,
     onShow:function(){
       hideLoading();
       $("#displayName").focus();
@@ -62,12 +75,16 @@ function joinRoom(room_id){
 
 function onJoinRoom(){
 	if($("#displayName").val()==""){
-		noty({layout:'center',timeout: 1000,force: true, text: 'Display Name can not be empty!', type: 'error'});
+		noty({layout:'top',timeout: 1000,force: true, text: 'Name can not be empty!', type: 'error'});
 		$("#displayName").focus();
 		return;
 	}
 
 	window.open("/page/room?displayname="+$("#displayName").val()+"&password="+$("#roomPassword").val()+"&room_id="+$("#room_id").val());
-	$.sheetbox.close("bottom");
+	$.sheetbox.close("center");
+}
+
+function closeSheetBox(layout){
+  $.sheetbox.close(layout);
 }
 </script>

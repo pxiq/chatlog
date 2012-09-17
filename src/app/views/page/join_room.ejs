@@ -1,7 +1,27 @@
-<div class="createRoomForm" style="line-height:40px;">
+<div class="box createRoomForm" style="line-height:40px;">
+    <div class="title">
+        Join Room
+    </div>
     <input type="hidden" value="<%-room_id%>" id="room_id"/>
-    &nbsp;&nbsp;Display Name&nbsp;<input type="text" id="displayName" class="txt"/>
-    &nbsp;&nbsp;Password&nbsp;<input type="text" id="roomPassword" class="txt"/>
-    <a href="javascript:;" style="position:absolute;right:20px;top:13px;" class="btn" onclick="onJoinRoom();">Join</a>
-    <p style="font-family:arial;font-size:12px;color:#f8da99;">&nbsp;&nbsp;&nbsp;Note: password is not required for public rooms.</p>
+    <table>
+       <tr>
+         <td style="white-space:nowrap;">Name&nbsp;</td><td><input type="text" id="displayName" class="txt"/></td>
+       </tr> 
+       <tr>
+         <td>Password&nbsp;</td><td><input type="password" id="roomPassword" class="txt"/></td>
+       </tr> 
+       <tr>
+         <td></td>
+         <td>
+             <p style="font-family:arial;font-size:12px;color:#f8da99;">Note: password is not required for public rooms.</p>
+         </td>
+       </tr>  
+       <tr>
+         <td></td>
+         <td>
+           <a href="javascript:;" class="btn" onclick="onJoinRoom();">Join Room</a>
+           <a href="javascript:;" style="margin-left: 10px;" class="btnRed" onclick="closeSheetBox('center');">Cancel</a>
+         </td>
+       </tr>  
+    </table>
 </div>

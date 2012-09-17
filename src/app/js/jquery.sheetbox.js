@@ -38,18 +38,26 @@
             $(template).css("height",options.height+"px");
             $(template).css("width","100%");
             $(template).animate({bottom:0},options.speed);
-        }if(options.layout == 'left'){
+        }else if(options.layout == 'left'){
             $(template).css("left",(0-options.width)+"px");
             $(template).css("top","0px");
             $(template).css("height","100%");
             $(template).css("width",options.width+"px");
             $(template).animate({left:0},options.speed);
-        }if(options.layout == 'right'){
+        }else if(options.layout == 'right'){
             $(template).css("right",(0-options.width)+"px");
             $(template).css("top","0px");
             $(template).css("height","100%");
             $(template).css("width",options.width+"px");
             $(template).animate({right:0},options.speed);
+        }else if(options.layout == 'center'){
+            $(template).css("opacity","0");
+            $(template).css("height",options.height+"px");
+            $(template).css("width",options.width+"px");
+            $(template).css("left","50%");
+            $(template).css("margin-left",(0-options.width)/2+"px");
+            $(template).css("top","100%");
+            $(template).animate({"opacity":"1","top":"50%","margin-top":(0-options.height)/2},options.speed);
         }
         
         var onShow = null;

@@ -1,6 +1,5 @@
-<ul id="users">
-  
-</ul>
+<div id="room_title">
+</div>
 <div id="logs">
   <div id="list">
   </div>
@@ -30,10 +29,16 @@ $(function(){
         }
     });
 
-    socket.on('joinRoom', function(message) {
-        if(message == 1){
+    socket.on('joinRoom', function(res) {
+        if(res.status == 1){
           noty({layout:'center',timeout: 1000,force: true, text: 'Joined!', type: 'success'});
+        }else{
+          noty({layout:'center',timeout: 1000,force: true, text: res.msg, type: 'error'});
         }
+    });
+
+    socket.on('getRoom', function(room) {
+        setRoom(room);
     });
 
     socket.on('newMessage', function(message) {
@@ -43,7 +48,16 @@ $(function(){
   });
 
   joinRoom();
+  getRoom();
 });
+
+function getRoom(){
+   socket.emit("getRoom",$("#room_id").val());
+}
+
+function setRoom(room){
+   $("#room_title").html(room.name);
+}
 
 function joinRoom(){
    socket.emit("joinRoom",$("#room_id").val(),$("#displayname").val(),$("#password").val());

@@ -1,6 +1,5 @@
-﻿//var RedisStore = require('./lib/stores/redis')
-//var io = require('./lib/socket.io').listen(8900,{store:new RedisStore()});
-var io = require('socket.io').listen(8900);
+﻿var io = require('socket.io');
+io = io.listen(8900,{store:new io.RedisStore()})
 var crypto = require('crypto');
 
 //store rooms
@@ -14,8 +13,12 @@ io.sockets.on('connection', function (socket){
     createRoom(socket,room_id);
   });
 
-  socket.on('joinRoom', function (room_id) {
-    joinRoom(socket,room_id);
+  socket.on('getRoom', function (room_id) {
+    socket.emit('getRoom',rooms[room_id]);
+  });
+
+  socket.on('joinRoom', function (room_id,user,password) {
+    joinRoom(socket,room_id,user,password);
   });
 
   socket.on('newMessage', function (message) {
@@ -27,7 +30,8 @@ io.sockets.on('connection', function (socket){
 
 //callbacks
 function createRoom(socket,room){
-  if(room!=undefined){
+  if(room != undefined){
+      room.created = new Date().format("yyyy-MM-dd HH:mm:ss");
       var md5 = crypto.createHash('md5');
       md5.update(room.name+new Date().getTime(),'utf8');
       var roomKey = md5.digest('hex');
@@ -40,12 +44,19 @@ function createRoom(socket,room){
 
 function joinRoom(socket,room_id,user,password){
   if(room_id!=undefined){
-      socket.join(room_id);
-      console.log(socket.id +" join room:"+room_id);
-      socket.emit('joinRoom',1);
-  }
+      if(rooms[room_id] == undefined){
+          socket.emit('joinRoom',{status:0,msg:'room is not exist!'});
+          return;
+      }
 
-  console.dir(io.sockets.manager.rooms);
+      if(rooms[room_id].password == password){
+          socket.join(room_id);
+          console.log(socket.id +" join room:"+room_id);
+          socket.emit('joinRoom',{status:1});
+      }else{
+        socket.emit('joinRoom',{status:0,msg:'password is not correct!'});
+      }
+  }
 }
 
 function newMessage(socket,message){
