@@ -4,7 +4,7 @@
 </div>  
 <div style="margin:30px 20px 10px 20px;color:#a3c07d;font-size:14px;clear:both;">Public rooms</div>
 <ul class="rooms" id="public_rooms">
-  
+
 </ul>
 <div style="margin:30px 20px 10px 20px;color:#a3c07d;font-size:14px;clear:both;">Private rooms</div>
 <ul class="rooms" id="private_rooms">
@@ -47,12 +47,12 @@ function createRoom(){
 
 function onCreateRoom(){
 	if($("#roomName").val()==""){
-		noty({layout:'top',timeout: 1000,force: true, text: 'Name can not be empty!', type: 'error'});
+		noty({layout:'top',timeout: 1000,force: true, text: 'Room Name can not be empty!', type: 'error'});
 		$("#roomName").focus();
 		return;
 	}
 
-  if($("#password").val()!=$("#confirmPassword").val()){
+  if($("#roomPassword").val()!= $("#confirmPassword").val()){
     noty({layout:'top',timeout: 1000,force: true, text: 'Please input the same password!', type: 'error'});
     $("#confirmPassword").focus();
     return;

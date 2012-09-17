@@ -10,7 +10,7 @@
   <textarea id="content"></textarea>
   </div>
 
-  <a href="javascript:;" onclick="send();" class="send">Send</a>
+  <a href="javascript:;" id="send" onclick="send();" class="send">Send</a>
 </div>
 
 <input type="hidden" value="<%-room_id%>" id="room_id"/>
@@ -20,6 +20,9 @@
 <script type="text/javascript">
 var socket;
 $(function(){
+  setEnterKey("#content","#send");
+  $("#content").focus();
+
   socket = io.connect('http://localhost:8900');
   socket.on('connect', function () {
     socket.on('users', function (users) {
@@ -65,10 +68,12 @@ function joinRoom(){
 
 function send(){
     socket.emit("newMessage",{room_id:$("#room_id").val(),user:$("#displayname").val(),message:$("#content").val()});
+    $("#content").val("");
 }
 
 function appendMessage(message){
     $("#list").append("<div class='msg'><span class='msg_user'>"+message.user+":</span><span class='msg_msg'>"+message.message+"</span><span class='msg_date'>"+message.date+"</span>");
+    $("#logs").scrollTop(document.getElementById("logs").scrollHeight);
 }
 
 </script>
