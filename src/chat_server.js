@@ -42,14 +42,18 @@ function createRoom(socket,room){
     }
 }
 
-function joinRoom(socket,room_id,user,password){
+function joinRoom(socket,room_id,user,signature){
   if(room_id!=undefined){
       if(rooms[room_id] == undefined){
           socket.emit('joinRoom',{status:0,msg:'room is not exist!'});
           return;
       }
 
-      if(rooms[room_id].password == password){
+      var md5 = crypto.createHash('md5');
+      md5.update(user+rooms[room_id].password+room_id);
+      var key = md5.digest('hex');
+
+      if(key == signature){
           socket.join(room_id);
           console.log(socket.id +" join room:"+room_id);
           socket.emit('joinRoom',{status:1});

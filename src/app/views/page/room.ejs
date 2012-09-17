@@ -1,9 +1,5 @@
 <div id="room_title">
 </div>
-<div id="logs">
-  <div id="list">
-  </div>
-</div>
 
 <div id="chatbox">
   <div style="margin:10px;margin-right:100px;">
@@ -13,9 +9,14 @@
   <a href="javascript:;" id="send" onclick="send();" class="send">Send</a>
 </div>
 
+<div id="logs">
+  <div id="list">
+  </div>
+</div>
+
 <input type="hidden" value="<%-room_id%>" id="room_id"/>
 <input type="hidden" value="<%-displayname%>" id="displayname"/>
-<input type="hidden" value="<%-password%>" id="password"/>
+<input type="hidden" value="<%-signature%>" id="signature"/>
 
 <script type="text/javascript">
 var socket;
@@ -63,7 +64,7 @@ function setRoom(room){
 }
 
 function joinRoom(){
-   socket.emit("joinRoom",$("#room_id").val(),$("#displayname").val(),$("#password").val());
+   socket.emit("joinRoom",$("#room_id").val(),$("#displayname").val(),$("#signature").val());
 }
 
 function send(){
@@ -72,7 +73,7 @@ function send(){
 }
 
 function appendMessage(message){
-    $("#list").append("<div class='msg'><span class='msg_user'>"+message.user+":</span><span class='msg_msg'>"+message.message+"</span><span class='msg_date'>"+message.date+"</span>");
+    $("#list").append("<div class='msg'><span class='msg_user'>"+message.user+"<span class='msg_date'>"+message.date+"</span></span><span class='msg_msg'>"+message.message+"</span>");
     $("#logs").scrollTop(document.getElementById("logs").scrollHeight);
 }
 

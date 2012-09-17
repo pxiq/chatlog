@@ -2,9 +2,9 @@
 html,body{width:100%;height: 100%;}
 body{
 	font-size: 12px;
-	background: #444;
-	color: #fff;
+	background: #fff;
     font-family:  Tahoma, Arial, Helvetica, STHeiti;
+    color:#333;
 }
 
 table {border-collapse:collapse;border-spacing:0;width: 100%;}
@@ -13,26 +13,21 @@ th,td{padding: 10px;color: #a3c07d;}
 .txt{
   padding:8px 5px;
   background:#eff8e3;
-  color:#000;
   border:2px solid #a3c07d;
   width:250px;
   outline: none;
 }
 
-.msg{margin:10px 10px 0px 10px;padding:5px;position: relative;
-    border-bottom: 1px dashed #ccc;
-}
-.msg_msg{padding:10px;display:block;color:#666;font-family: arial;}
-.msg_user{display:block;line-height:12px;}
-.msg_date{
-    padding:5px;position: absolute;right:0px;top:0px;font-size: 11px;font-family: arial;color: #666;
+.nav{
+    margin:30px 20px 0px 20px;color:#333;font-size:14px;clear:both;
+    text-shadow:1px 1px 0px #eee;
 }
 
 #nav{
     position: relative;
     width:100%;
-    height:50px;
-    line-height: 50px;
+    height:40px;
+    line-height: 40px;
     font-size: 16px;
     font-weight: bold;
     color: #a3c07d;
@@ -103,12 +98,11 @@ th,td{padding: 10px;color: #a3c07d;}
     height:64px;
     padding: 5px 10px;
     background: #eff8e3;
-    color: #000;
     margin: 15px;
-    font-size: 12px;
-    -moz-box-shadow:0px 0px 6px #333; 
-	-webkit-box-shadow:0px 0px 6px #333;
-	box-shadow:0px 0px 6px #333;
+    font-size: 14px;
+    -moz-box-shadow:0px 0px 3px #666; 
+	-webkit-box-shadow:0px 0px 3px #666;
+	box-shadow:0px 0px 3px #666;
 	-moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
@@ -135,7 +129,10 @@ th,td{padding: 10px;color: #a3c07d;}
     top:0px;
     height: 40px;
     line-height: 40px;
-    text-indent: 10px;
+    text-indent: 20px;
+    font-size: 16px;
+    background: #444;
+    color: #fff;
 }
 
 .box{
@@ -160,7 +157,6 @@ th,td{padding: 10px;color: #a3c07d;}
     font-family:"Microsoft Yahei", "微软雅黑";
     font-size:16px;
     background: #a3c07d;
-    color:#000;
     position: relative;
     top:-3px;
     margin: 0px 10px;
@@ -168,6 +164,7 @@ th,td{padding: 10px;color: #a3c07d;}
     -webkit-border-radius: 3px;
     border-radius: 3px;
     text-shadow: 0 1px 0 #fff;
+    color: #333;
 }
 
 #logs{
@@ -177,8 +174,7 @@ th,td{padding: 10px;color: #a3c07d;}
 	bottom:100px;
 	top:40px;
 	background: #ffffff;
-    border-top: 3px solid #daefec;
-    border-bottom: 3px solid #daefec;
+    border-top: 3px solid #a3c07d;
 	-moz-box-shadow:0px 0px 8px #111; 
 	-webkit-box-shadow:0px 0px 8px #111;
 	box-shadow:0px 0px 8px #111;
@@ -188,7 +184,35 @@ th,td{padding: 10px;color: #a3c07d;}
 #logs #list{
 	margin: 10px;
 	font-size: 12px;
-	color: #000;
+}
+
+.msg{
+    margin:20px 10px 0px 10px;
+    position: relative;
+    clear: both;
+}
+.msg_msg{
+    clear: both;
+    padding-top:10px;display:block;color:#333;font-family: arial;font-size: 14px;
+    text-indent: 2em;
+}
+.msg_user{
+    clear: both;
+    display:block;
+    font-size:14px;
+    background: #daefec;
+    position: relative;
+    top:0px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    padding: 2px 5px;
+    float: left;
+}
+
+.msg_date{
+   font-size: 11px;font-family: arial;color: #666;
+   margin-left: 20px;
 }
 
 #chatbox{
@@ -197,7 +221,7 @@ th,td{padding: 10px;color: #a3c07d;}
 	left:0px;
 	bottom:0px;
 	height:100px;
-	background: none;
+	background: #444;
 }
 
 #chatbox textarea{
@@ -207,6 +231,7 @@ th,td{padding: 10px;color: #a3c07d;}
 	height:80px;
 	outline:none;
 	color:#fff;
+    font-size: 14px;
 }
 
 .send{
@@ -225,6 +250,9 @@ th,td{padding: 10px;color: #a3c07d;}
     border-radius: 10px;
     text-decoration: none;
     font-size: 20px;
-    color: #000;
     text-shadow:1px 1px 0px #fff;
+    -moz-box-shadow:0px 0px 5px #222; 
+    -webkit-box-shadow:0px 0px 5px #222;
+    box-shadow:0px 0px 5px #222;
+    color: #000;
 }

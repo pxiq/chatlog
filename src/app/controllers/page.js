@@ -13,9 +13,9 @@ c.index = function(){
 
 c.room = function(){
    var displayname      = this.get("displayname");
-   var password   = this.get("password");
+   var signature   = this.get("signature");
    var room_id      = this.get("room_id");
-   this.render('page/room',{displayname:displayname,password:password,room_id:room_id});
+   this.render('page/room',{displayname:displayname,signature:signature,room_id:room_id});
 }
 
 c.join_room = function(){

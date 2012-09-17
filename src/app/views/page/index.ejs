@@ -1,12 +1,12 @@
 <div id="nav">
   <div class="logo">ChatLog</div>
-  <a href="javascript:;" onclick="createRoom();" class="btn" style="position:absolute;right:20px;top:10px;">Create a new room</a>
+  <a href="javascript:;" onclick="createRoom();" class="btn" style="position:absolute;right:20px;top:5px;">Create a new room</a>
 </div>  
-<div style="margin:30px 20px 10px 20px;color:#a3c07d;font-size:14px;clear:both;">Public rooms</div>
+<div class="nav">Public rooms</div>
 <ul class="rooms" id="public_rooms">
 
 </ul>
-<div style="margin:30px 20px 10px 20px;color:#a3c07d;font-size:14px;clear:both;">Private rooms</div>
+<div class="nav">Private rooms</div>
 <ul class="rooms" id="private_rooms">
   
 </ul>
@@ -80,7 +80,7 @@ function onJoinRoom(){
 		return;
 	}
 
-	window.open("/page/room?displayname="+$("#displayName").val()+"&password="+$("#roomPassword").val()+"&room_id="+$("#room_id").val());
+	window.open("/page/room?displayname="+$("#displayName").val()+"&signature="+hex_md5($("#displayName").val()+$("#roomPassword").val()+$("#room_id").val())+"&room_id="+$("#room_id").val());
 	$.sheetbox.close("center");
 }
 
