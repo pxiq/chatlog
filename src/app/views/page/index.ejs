@@ -16,7 +16,7 @@ $(function(){
   $(".rooms li").live("mouseenter",function(){
     $(this).animate({backgroundColor:"#a3c07d",color:"#000"},300);
   }).live("mouseleave",function(){
-    $(this).animate({backgroundColor:"#eff8e3",color:"#000"},300);
+    $(this).animate({backgroundColor:"#333",color:"#fff"},300);
   }).live("click",function(){
     joinRoom($(this).attr("room_id"));
   });
@@ -80,7 +80,7 @@ function onJoinRoom(){
 		return;
 	}
 
-	window.open("/page/room?displayname="+$("#displayName").val()+"&signature="+hex_md5($("#displayName").val()+$("#roomPassword").val()+$("#room_id").val())+"&room_id="+$("#room_id").val());
+	window.open(encodeURI("/page/room?displayname="+$("#displayName").val()+"&signature="+hex_md5($("#displayName").val()+$("#roomPassword").val()+$("#room_id").val())+"&room_id="+$("#room_id").val()));
 	$.sheetbox.close("center");
 }
 
