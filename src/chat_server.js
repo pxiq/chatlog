@@ -1,4 +1,7 @@
-﻿//start server
+﻿var check = require('validator').check;
+var sanitize = require('validator').sanitize;
+
+//start server
 var redisConfig = require('./redis');
 var io = require('socket.io');
 io = io.listen(8900,{store:new io.RedisStore(redisConfig)})
@@ -45,6 +48,8 @@ function createRoom(socket,room){
 }
 
 function joinRoom(socket,room_id,user,signature){
+  user = sanitize(user).xss();
+
   if(room_id!=undefined){
       if(rooms[room_id] == undefined){
           socket.emit('joinRoom',{status:0,msg:'room is not exist!'});
@@ -66,8 +71,10 @@ function joinRoom(socket,room_id,user,signature){
 }
 
 function newMessage(socket,message){
-     message.date = new Date().format("yyyy-MM-dd HH:mm:ss");
-     io.sockets.in(message.room_id).emit('newMessage',message);
+    message.message = sanitize(message.message).xss();
+
+    message.date = new Date().format("yyyy-MM-dd HH:mm:ss");
+    io.sockets.in(message.room_id).emit('newMessage',message);
 }
 
 Date.prototype.format=function(fmt) {      
