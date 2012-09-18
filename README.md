@@ -1,6 +1,6 @@
 ###Setup
-  install redis
-  start redis
+  - install redis
+  - start redis
   
 ###Screen shots
 
