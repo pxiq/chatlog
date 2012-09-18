@@ -7,6 +7,8 @@
         cd src 
         npm install
         node start.js
+        
+  - open "localhost:8000"    
   
 ###Screen shots
 
