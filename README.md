@@ -1,3 +1,15 @@
+###Setup
+  - install node and npm
+  - install redis
+  - start redis server
+  - download source code of chatlog
+
+        cd src 
+        npm install
+        node start.js
+        
+  - start web browser(make sure your browser support websocket) and visit http://localhost:8000
+  
 ###Screen shots
 
 <img src="https://github.com/nodengine/chatlog/raw/master/src/img/1.png" style="width:500px;border: 5px solid #000;" />
