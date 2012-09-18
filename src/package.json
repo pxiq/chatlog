@@ -19,8 +19,7 @@
     "socket.io":"0.9.10",
     "connect": "2.3.6",
     "redis":"0.7.2",
-    "connect-redis":"1.4.2",
-    "mongodb":"1.0.2"
+    "connect-redis":"1.4.2"
   },
   "devDependencies": {},
   "main": "index",
