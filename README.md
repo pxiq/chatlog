@@ -8,7 +8,7 @@
         npm install
         node start.js
         
-  - start web browser(make sure your browser support websocket) and go to http://localhost:8000
+  - start web browser(make sure your browser support websocket) and visit http://localhost:8000
   
 ###Screen shots
 
