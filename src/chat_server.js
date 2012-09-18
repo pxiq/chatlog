@@ -1,10 +1,12 @@
-﻿var io = require('socket.io');
-io = io.listen(8900,{store:new io.RedisStore()})
-var crypto = require('crypto');
+﻿//start server
+var redisConfig = require('./redis');
+var io = require('socket.io');
+io = io.listen(8900,{store:new io.RedisStore(redisConfig)})
 
 //store rooms
 var rooms = {};
 var roomsPerSession = 3;
+var crypto = require('crypto');
 
 io.sockets.on('connection', function (socket){
   socket.emit('rooms',rooms); 

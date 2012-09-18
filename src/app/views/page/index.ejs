@@ -37,7 +37,7 @@ $(function(){
 
 function createRoom(){
   loading();
-  $.sheetbox('/page/create_room','',{layout:'center',height:300,width:460,speed:200,modal: true,
+  $.sheetbox('/page/create_room','',{layout:'center',height:300,width:460,speed:300,modal: true,
     onShow:function(){
       hideLoading();
       $("#roomName").focus();
@@ -47,7 +47,7 @@ function createRoom(){
 
 function onCreateRoom(){
 	if($("#roomName").val()==""){
-		noty({layout:'top',timeout: 1000,force: true, text: 'Room Name can not be empty!', type: 'error'});
+		noty({layout:'top',timeout: 1000,force: true, text: 'Room name can not be empty!', type: 'error'});
 		$("#roomName").focus();
 		return;
 	}
@@ -65,7 +65,7 @@ function onCreateRoom(){
 
 function joinRoom(room_id){
   loading();
-  $.sheetbox('/page/join_room?room_id='+room_id,'',{layout:'center',height:250,width:400,speed:200,modal: true,
+  $.sheetbox('/page/join_room?room_id='+room_id,'',{layout:'center',height:250,width:450,speed:300,modal: true,
     onShow:function(){
       hideLoading();
       $("#displayName").focus();
@@ -75,7 +75,7 @@ function joinRoom(room_id){
 
 function onJoinRoom(){
 	if($("#displayName").val()==""){
-		noty({layout:'top',timeout: 1000,force: true, text: 'Name can not be empty!', type: 'error'});
+		noty({layout:'top',timeout: 1000,force: true, text: 'Your name can not be empty!', type: 'error'});
 		$("#displayName").focus();
 		return;
 	}
