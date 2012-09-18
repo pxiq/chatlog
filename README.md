@@ -1,6 +1,10 @@
 ###Setup
-  - install redis
-  - start redis
+  - install node and npm
+  - install and start redis
+  - download source code of chatlog
+        cd src 
+        npm install
+        node start.js
   
 ###Screen shots
 
