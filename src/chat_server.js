@@ -72,14 +72,14 @@ function newMessage(socket,message){
 
 Date.prototype.format=function(fmt) {      
     var o = {      
-    "M+" : this.getMonth()+1, //月份      
-    "d+" : this.getDate(), //日      
-    "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12, //小时      
-    "H+" : this.getHours(), //小时      
-    "m+" : this.getMinutes(), //分      
-    "s+" : this.getSeconds(), //秒      
-    "q+" : Math.floor((this.getMonth()+3)/3), //季度      
-    "S" : this.getMilliseconds() //毫秒      
+    "M+" : this.getMonth()+1,    
+    "d+" : this.getDate(), 
+    "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12,   
+    "H+" : this.getHours(),    
+    "m+" : this.getMinutes(),    
+    "s+" : this.getSeconds(), 
+    "q+" : Math.floor((this.getMonth()+3)/3),   
+    "S" : this.getMilliseconds()     
     };      
     var week = {      
     "0" : "\u65e5",      
