@@ -4,7 +4,7 @@
   - start redis server
   - download source code of chatlog
 
-        cd src 
+        cd  ./chatlog 
         npm install
         node start.js
         
