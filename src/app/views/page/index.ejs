@@ -57,9 +57,8 @@ function onCreateRoom(){
     $("#confirmPassword").focus();
     return;
   }
-    
-    //var id = hex_md5($("#roomName").val()+new Date().getTime();
-	socket.emit('createRoom',{name:$("#roomName").val(),password:$("#roomPassword").val()}); 
+
+	socket.emit('createRoom',{session:"<%=(session("id"))%>",name:$("#roomName").val(),password:$("#roomPassword").val()}); 
 	$.sheetbox.close("center");
 }
 

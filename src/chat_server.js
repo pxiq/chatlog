@@ -22,16 +22,34 @@ io.sockets.on('connection', function (socket){
     socket.emit('getRoom',rooms[room_id]);
   });
 
-  socket.on('joinRoom', function (room_id,user,password) {
-    joinRoom(socket,room_id,user,password);
+  socket.on('getUsers', function (room_id) {
+    var users = getUsers(room_id);
+    io.sockets.in(room_id).emit('users',users);
+  });
+
+  socket.on('joinRoom', function (session,room_id,user,password) {
+    joinRoom(socket,session,room_id,user,password);
   });
 
   socket.on('newMessage', function (message) {
     newMessage(socket,message);
   });
 
-  socket.on('disconnect', function (){});
+  socket.on('disconnect', function (){
+
+        for(var i in rooms){
+            for(var j in rooms[i].users){
+              if(rooms[i].users[j][2] == socket.id){
+                var room_id = rooms[i].users[j][3];
+                rooms[i].users.splice(j,1);
+                var users = getUsers(room_id);
+                io.sockets.in(room_id).emit('users',users);
+              }
+            }
+        }
+  });
 });
+
 
 //callbacks
 function createRoom(socket,room){
@@ -47,9 +65,8 @@ function createRoom(socket,room){
     }
 }
 
-function joinRoom(socket,room_id,user,signature){
+function joinRoom(socket,session,room_id,user,signature){
   user = sanitize(user).xss();
-
   if(room_id!=undefined){
       if(rooms[room_id] == undefined){
           socket.emit('joinRoom',{status:0,msg:'room is not exist!'});
@@ -62,8 +79,14 @@ function joinRoom(socket,room_id,user,signature){
 
       if(key == signature){
           socket.join(room_id);
-          console.log(socket.id +" join room:"+room_id);
-          socket.emit('joinRoom',{status:1});
+          if(!existUser(room_id,session,user)){
+            addUser(room_id,session,user,socket.id);
+            socket.emit('joinRoom',{status:1});
+          }else{
+            socket.emit('joinRoom',{status:0,msg:'the session already contains a user!'});
+          }
+          var users = getUsers(room_id);
+          io.sockets.in(room_id).emit('users',users);
       }else{
         socket.emit('joinRoom',{status:0,msg:'password is not correct!'});
       }
@@ -75,6 +98,42 @@ function newMessage(socket,message){
 
     message.date = new Date().format("yyyy-MM-dd HH:mm:ss");
     io.sockets.in(message.room_id).emit('newMessage',message);
+}
+
+
+//functions
+function getUsers(room_id){
+    var users = [];
+    if(rooms[room_id]!=undefined){
+        for(var i in rooms[room_id].users){
+          users.push({name:rooms[room_id].users[i][1]});
+        }
+    }
+
+    return users;
+}
+
+function addUser(room_id,session,user,socket_id){
+    if(rooms[room_id]!=undefined){
+        if(rooms[room_id].users==undefined){
+            rooms[room_id].users = [];
+        }
+        rooms[room_id].users.push([session,user,socket_id,room_id]);
+    }
+}
+
+function existUser(room_id,session,user){
+    if(rooms[room_id]!=undefined){
+        if(rooms[room_id].users!=undefined){
+            for(var i in rooms[room_id].users){
+                if(rooms[room_id].users[i][0] == session){
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 Date.prototype.format=function(fmt) {      

@@ -1,5 +1,6 @@
-<div id="room_title">
-</div>
+
+
+
 
 <div id="chatbox">
   <div style="margin:10px;margin-right:100px;">
@@ -13,6 +14,14 @@
   <div id="list">
   </div>
 </div>
+
+<div id="room_title">
+</div>
+
+<ul class="users" id="users">
+</ul>
+
+
 
 <input type="hidden" value="<%-room_id%>" id="room_id"/>
 <input type="hidden" value="<%-displayname%>" id="displayname"/>
@@ -28,14 +37,15 @@ $(function(){
   socket.on('connect', function () {
     socket.on('users', function (users) {
         $("#users").html('');
-        for(var i in rooms){
-            $("#users").append("<li user_id='"+i+"''>"+users[i].name+"</li>");
+        for(var i in users){
+            $("#users").append("<li class='user' user_id='"+i+"''>"+users[i].name+"</li>");
         }
     });
 
     socket.on('joinRoom', function(res) {
         if(res.status == 1){
           noty({layout:'center',timeout: 1000,force: true, text: 'Joined!', type: 'success'});
+          getUsers();
         }else{
           noty({layout:'center',timeout: 1000,force: true, text: res.msg, type: 'error'});
         }
@@ -49,10 +59,11 @@ $(function(){
         appendMessage(message);
     });
 
-  });
 
-  joinRoom();
-  getRoom();
+    joinRoom();
+    getRoom();
+
+  });
 });
 
 function getRoom(){
@@ -64,7 +75,11 @@ function setRoom(room){
 }
 
 function joinRoom(){
-   socket.emit("joinRoom",$("#room_id").val(),$("#displayname").val(),$("#signature").val());
+   socket.emit("joinRoom","<%=(session("id"))%>",$("#room_id").val(),$("#displayname").val(),$("#signature").val());
+}
+
+function getUsers(users){
+   socket.emit("getUsers",$("#room_id").val());
 }
 
 function send(){
